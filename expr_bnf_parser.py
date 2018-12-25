@@ -140,8 +140,10 @@ class CalcParser(object):
             if self.match("SET"):
                 if self.match("IDENTIFIER") :
                     lval = self.cur_token.val
-                    if self.match("EQUALS") and self.match("NUMBER") :
-                        self.vars[lval] = int(self.cur_token.val)
+                    if self.match("EQUALS"):
+                        result = self.expr()
+                        if result is not None:
+                            self.vars[lval] = int(result)
             #prod2 : <expr>
             else:
                 result = self.expr()
@@ -202,7 +204,7 @@ if __name__ == '__main__':
     logging.basicConfig(format=FORMAT, level=level)
 
     cp = CalcParser(rules)
-    cp.parse("set x = 10")
-    cp.parse("y*8+7")
+    cp.parse("set x = 10+4*7")
+    cp.parse("x*8+7")
     #cp.parse(args.input)
 
