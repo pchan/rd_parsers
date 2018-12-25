@@ -89,12 +89,19 @@ class CalcParser(object):
 
         if self.match("NUMBER"):
             return self.get_number()
+
         if self.match("IDENTIFIER"):
             try:
                 return self.vars[self.gct().val]
             except KeyError:
                 logging.critical("Identifier {} not set".format(self.gct()))
                 sys.exit(1)
+        
+        #match for ()
+        if self.match("LP"):
+            result = self.expr()
+            if self.match("RP"):
+                return result
         return None
 
     def term(self):
@@ -157,7 +164,7 @@ class CalcParser(object):
 
 
     #parse 
-    def parse(self, input="5+6"):
+    def parse(self, input="(5+6)"):
         print("input is {}".format(input))
         self.lx.input(input)
         success, result = self.start()
@@ -204,7 +211,7 @@ if __name__ == '__main__':
     logging.basicConfig(format=FORMAT, level=level)
 
     cp = CalcParser(rules)
-    cp.parse("set x = 10+4*7")
-    cp.parse("x*8+7")
-    #cp.parse(args.input)
+    #cp.parse("set x = 10+4*7")
+    #cp.parse("x*8+7")
+    cp.parse(args.input)
 
