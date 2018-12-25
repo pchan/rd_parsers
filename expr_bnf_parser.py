@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 #
 # Simple expressions grammer found in Dragon book. Suffers from associativity problems.
 # Example: 6-5-5 => 5-5 gets evaluated first by the parse tree
@@ -89,6 +89,12 @@ class CalcParser(object):
 
         if self.match("NUMBER"):
             return self.get_number()
+        if self.match("IDENTIFIER"):
+            try:
+                return self.vars[self.gct().val]
+            except KeyError:
+                logging.critical("Identifier {} not set".format(self.gct()))
+                sys.exit(1)
         return None
 
     def term(self):
@@ -196,7 +202,7 @@ if __name__ == '__main__':
     logging.basicConfig(format=FORMAT, level=level)
 
     cp = CalcParser(rules)
-    #cp.parse("set x = 10")
-    #cp.parse("5*8+7")
-    cp.parse(args.input)
+    cp.parse("set x = 10")
+    cp.parse("y*8+7")
+    #cp.parse(args.input)
 
