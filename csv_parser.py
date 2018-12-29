@@ -15,18 +15,14 @@
 # COMMMA : ,
 # QUOTE : "
 # STRING: [^,"] #all strings not matching comma or quotes
-# ID      : [a-zA-Z_]\w+
-# NUM  : \d+
 
 from parser import Parser
 import logging
 import sys
-#Please see README on how to get this lexer
 import trace
 
 # Implements a recursive descent parser for thea above grammar(csv)
 # Since this is LL(1) no backtracking is needed
-# Does not suffer from associativity problems.
 class CsvParser(Parser):
 
     def __init__(self, rules):
@@ -71,17 +67,13 @@ class CsvParser(Parser):
                 if self.match("STRING"):
                     s = s + self.sn(self.gsft())
 
-                logging.debug("inter is {}".format(s))
-
                 if self.match("QUOTE"):
                     s = s + "\""
                     break
-                logging.debug("inter2 is {}".format(s))
 
                 if self.cnt() is False:
                     logging.critical("Improperly nested QUOTE ")
                     break
-        logging.debug("final field s is {}".format(s))
         return s
 
     def start(self):
@@ -123,10 +115,7 @@ if __name__ == '__main__':
     FORMAT = "%(levelname)s[%(filename)s:%(lineno)s - %(funcName)s() ] %(message)s"
     logging.basicConfig(format=FORMAT, level=level)
 
-    #cp.parse("set x = 10+4*7")
-    #cp.parse("x*8+7")
-    #cp.parse("6-5-5")
-    #cp.parse("5*8/4/2")
+    #cp.parse("5,6,7")
     if args.trace:
         tracer.run("cp.parse(args.input)")
     else:
