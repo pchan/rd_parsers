@@ -79,7 +79,7 @@ class Parser(object):
 
     #parse the input
     def parse(self, input="(5+6)"):
-        logging.debug("input is {}".format(input))
+        logging.info("input is {}".format(input))
         self.lx.input(input)
         success, result = self.start()
 
