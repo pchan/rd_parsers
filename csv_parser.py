@@ -15,6 +15,7 @@
 # COMMMA : ,
 # QUOTE : "
 # STRING: [^,"] #all strings not matching comma or quotes
+# Note: Grammar does not allows nested quotes. TODO: Make it nested.
 
 from parser import Parser
 import logging
